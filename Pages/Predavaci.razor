@@ -1,0 +1,53 @@
+﻿@page "/predavaci"
+@inject Data.ViewModels.IListaPredavaca LP
+@inject Data.ViewModels.IPredavacEditor PredEd
+@using Data.Models
+
+
+<MudTable Items="@LP.Predavaci" 
+    Hover="true"
+    T="Predavac">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Ime</MudTh>
+        <MudTh>Prezime</MudTh>
+        <MudTh>Mejl</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.Id</MudTd>
+        <MudTd DataLabel="Sign">@context.Name</MudTd>
+        <MudTd DataLabel="Name">@context.Surname</MudTd>
+        <MudTd DataLabel="Position">@context.Email</MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+<EditForm Model="@PredEd" OnSubmit="Submit">
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="First name" HelperText="Max. 8 characters"
+                                  @bind-Value="@PredEd.Predavac.Name"/>
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="@PredEd.Predavac.Surname"/>
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="@PredEd.Predavac.Email"/>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code
+{
+    public void Submit()
+    {
+        PredEd.Save();
+        LP.GetAll();
+        StateHasChanged();
+    }
+}

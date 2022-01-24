@@ -1,9 +1,1 @@
 ﻿@page "/"
-@inject Data.ViewModels.IListaPredavaca LP
-
-<ul>
-@foreach(var p in LP.Predavaci)
-{
-    <li>@p.Id -- @p.Name</li>
-}
-</ul>

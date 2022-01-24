@@ -7,6 +7,8 @@ namespace Kursevi.Data
         Predavac? GetPredavac(int id);
 
         List<Predavac> GetAllPredavaci();
+
+        void SavePredavac(Predavac p);
     }
 
     public class PredavaciService : IPredavaciService
@@ -23,5 +25,11 @@ namespace Kursevi.Data
 
         public List<Predavac> GetAllPredavaci()
             => Db.Predavaci.ToList();
+
+        public void SavePredavac(Predavac p)
+        {
+            Db.Add(p);
+            Db.SaveChanges();
+        }
     }
 }

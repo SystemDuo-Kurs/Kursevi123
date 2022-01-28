@@ -1,0 +1,10 @@
+﻿@page "/kursevi"
+@inject Data.ViewModels.IKursEdit Editor
+<MudDatePicker Label="Pocekat" @bind-Date="Editor.Pocetak"/>
+<MudDatePicker Label="Kraj" @bind-Date="Editor.Kraj"/>
+<button @onclick="Editor.Save">Teeeest</button>
+@code 
+{
+
+ 
+}

@@ -4,9 +4,11 @@ namespace Kursevi.Data.ViewModels
 {
     public interface IPredavacEditor
     {
-        Predavac Predavac { get; }
+        Predavac Predavac { get; set; }
 
         void Save();
+
+        void Delete();
     }
 
     public class PredavacEditor : IPredavacEditor
@@ -23,6 +25,12 @@ namespace Kursevi.Data.ViewModels
         public void Save()
         {
             PredavaciService.SavePredavac(Predavac);
+            Predavac = new();
+        }
+
+        public void Delete()
+        {
+            PredavaciService.ObrisiPredavaca(Predavac);
             Predavac = new();
         }
     }

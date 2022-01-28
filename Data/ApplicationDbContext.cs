@@ -30,6 +30,8 @@ namespace Kursevi.Data
                 .WithMany(p => p.Courses);
 
             builder.Entity<Kurs>().Ignore(k => k.StartingTime);
+            builder.Entity<Kurs>().Ignore(k => k.StartingDate);
+            builder.Entity<Kurs>().Ignore(k => k.EndingDate);
 
             builder.Entity<DoW>().HasData
                 (

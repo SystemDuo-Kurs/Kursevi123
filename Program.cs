@@ -25,8 +25,11 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddMudServices();
 
 builder.Services.AddTransient<IPredavaciService, PredavaciService>();
+builder.Services.AddTransient<IKurseviServis, KurseviServis>();
 builder.Services.AddTransient<IListaPredavaca, ListaPredavaca>();
 builder.Services.AddTransient<IPredavacEditor, PredavacEditor>();
+builder.Services.AddTransient<IKursEdit, KursEdit>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

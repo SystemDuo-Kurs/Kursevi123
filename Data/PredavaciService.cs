@@ -9,6 +9,8 @@ namespace Kursevi.Data
         List<Predavac> GetAllPredavaci();
 
         void SavePredavac(Predavac p);
+
+        void ObrisiPredavaca(Predavac p);
     }
 
     public class PredavaciService : IPredavaciService
@@ -26,9 +28,15 @@ namespace Kursevi.Data
         public List<Predavac> GetAllPredavaci()
             => Db.Predavaci.ToList();
 
+        public void ObrisiPredavaca(Predavac p)
+        {
+            Db.Remove(p);
+            Db.SaveChanges();
+        }
+
         public void SavePredavac(Predavac p)
         {
-            Db.Add(p);
+            Db.Update(p);
             Db.SaveChanges();
         }
     }

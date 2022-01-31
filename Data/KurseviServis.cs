@@ -4,7 +4,7 @@ namespace Kursevi.Data
 {
     public interface IKurseviServis
     {
-        void SaveKurs(Kurs kurs);
+        Task SaveKurs(Kurs kurs);
     }
 
     public class KurseviServis : IKurseviServis
@@ -16,10 +16,10 @@ namespace Kursevi.Data
             Db = db;
         }
 
-        public void SaveKurs(Kurs kurs)
+        public async Task SaveKurs(Kurs kurs)
         {
             Db.Update(kurs);
-            Db.SaveChanges();
+            await Db.SaveChangesAsync();
         }
     }
 }

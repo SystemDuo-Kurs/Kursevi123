@@ -1,10 +1,37 @@
 ﻿@page "/kursevi"
 @inject Data.ViewModels.IKursEdit Editor
-<MudDatePicker Label="Pocekat" @bind-Date="Editor.Pocetak"/>
-<MudDatePicker Label="Kraj" @bind-Date="Editor.Kraj"/>
-<button @onclick="Editor.Save">Teeeest</button>
+
+<MudForm Model=Editor.Kurs>
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Prezime" Class="mt-3"
+                            @bind-Value="Editor.Kurs.Title"/>
+            <MudDateRangePicker
+                Label="Datum sta god" 
+                @bind-DateRange=_dr></MudDateRangePicker>
+            <MudTimePicker Label=Pocekat @bind-Time =Editor.Kurs.StartingTimeForDb></MudTimePicker>
+            <MudNumericField @bind-Value="Editor.Sati" Label="Sati" Min="0" Max="24" />
+            <MudNumericField @bind-Value="Editor.Minuta" Label="Minuta" Min="0" Max="59" />
+
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton @onclick=Save
+                Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Snimi</MudButton>
+        </MudCardActions>
+    </MudCard>
+</MudForm>
 @code 
 {
-
- 
+    private DateRange _dr;
+    public async Task Save()
+    {
+        Editor.Kurs.StartingDateForDb = _dr.Start;
+        Editor.Kurs.EndingDateForDb = _dr.End;
+        await Editor.Save();
+        Editor.Kurs = new();
+        _dr = new();
+        Editor.Sati = 0;
+        Editor.Minuta = 0;
+        StateHasChanged();
+    }
 }

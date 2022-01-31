@@ -5,46 +5,38 @@
         public int Id { get; set; }
         public string Title { get; set; } = String.Empty;
 
-        public TimeOnly StartingTime
+        public TimeOnly? StartingTime
         {
-            get => TimeOnly.Parse(StartingTimeForDb);
-            set => StartingTimeForDb = value.ToString();
+            get => StartingTimeForDb.HasValue ? TimeOnly.FromTimeSpan(StartingTimeForDb.Value) : null;
+            set => StartingTimeForDb = value.HasValue ? value.Value.ToTimeSpan() : null;
         }
+
+        public TimeSpan? StartingTimeForDb { get; set; }
 
         public TimeOnly EndingTime =>
-            StartingTime.AddHours(LectureDuration.TotalHours);
+            StartingTime.Value.AddHours(LectureDuration.TotalHours);
 
-        public DateOnly StartingDate
+        public DateOnly? StartingDate
         {
-            get
-            {
-                if (DateOnly.TryParse(StartingDateForDb, out DateOnly date))
-                    return date;
-                else
-                    return new DateOnly();
-            }
-            set => StartingDateForDb = value.ToString();
+            get => StartingDateForDb.HasValue ?
+                    DateOnly.FromDateTime(StartingDateForDb.Value) : null;
+            set => StartingDateForDb = value.HasValue ? value.Value.ToDateTime(new TimeOnly())
+                : null;
         }
 
-        public DateOnly EndingDate
+        public DateTime? StartingDateForDb { get; set; }
+
+        public DateOnly? EndingDate
         {
-            get
-            {
-                if (DateOnly.TryParse(EndingDateForDb, out DateOnly date))
-                    return date;
-                else
-                    return new DateOnly();
-            }
-            set => EndingDateForDb = value.ToString();
+            get => EndingDateForDb.HasValue ?
+                    DateOnly.FromDateTime(EndingDateForDb.Value) : null;
+            set => EndingDateForDb = value.HasValue ? value.Value.ToDateTime(new TimeOnly())
+                : null;
         }
 
-        public string StartingDateForDb { get; set; } = string.Empty;
-        public string EndingDateForDb { get; set; } = string.Empty;
-        public string StartingTimeForDb { get; set; } = string.Empty;
+        public DateTime? EndingDateForDb { get; set; }
         public TimeSpan LectureDuration { get; set; }
-        public TimeSpan CourseDuration { get; set; }
         public List<DoW> Days { get; set; } = new();
-
         public Predavac? Predavac { get; set; }
         public List<Polaznik> Polazniks { get; set; } = new();
     }

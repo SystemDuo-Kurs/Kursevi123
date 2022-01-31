@@ -5,26 +5,38 @@ namespace Kursevi.Data.ViewModels
     public interface IKursEdit
     {
         Kurs Kurs { get; set; }
-        DateTime? Pocetak { get; set; }
-        DateTime? Kraj { get; set; }
+        int Minuta { get; set; }
+        int Sati { get; set; }
 
-        void Save();
+        Task Save();
     }
 
     public class KursEdit : IKursEdit
     {
         public Kurs Kurs { get; set; } = new();
 
-        public DateTime? Pocetak
+        private int _sati;
+
+        public int Sati
         {
-            get => Kurs.StartingDate.ToDateTime(new TimeOnly());
-            set => Kurs.StartingDate = DateOnly.FromDateTime(value.Value);
+            get => _sati;
+            set
+            {
+                _sati = value;
+                Kurs.LectureDuration = new TimeSpan(Sati, Minuta, 0);
+            }
         }
 
-        public DateTime? Kraj
+        private int _minuta;
+
+        public int Minuta
         {
-            get => Kurs.EndingDate.ToDateTime(new TimeOnly());
-            set => Kurs.EndingDate = DateOnly.FromDateTime(value.Value);
+            get => _minuta;
+            set
+            {
+                _minuta = value;
+                Kurs.LectureDuration = new TimeSpan(Sati, Minuta, 0);
+            }
         }
 
         private IKurseviServis KurseviServis { init; get; }
@@ -34,9 +46,9 @@ namespace Kursevi.Data.ViewModels
             KurseviServis = kurseviServis;
         }
 
-        public void Save()
+        public async Task Save()
         {
-            KurseviServis.SaveKurs(Kurs);
+            await KurseviServis.SaveKurs(Kurs);
             Kurs = new();
         }
     }
